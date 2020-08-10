@@ -1,23 +1,17 @@
 import json
 import os
 import generic_database as gdb
+import uuid
 
 def make_productdb():
     productdb = gdb.GenericDatabase('')
     return productdb
 
-def first_three(str):
-	return str[:3] if len(str) > 3 else str
-
-def assign_product_id(product_name):
-    product_id = first_three(product_name.strip().lower())
-    return product_id
-
 
 class Product():
     def __init__(self, product_name):
         self.name = product_name
-        self.id = assign_product_id(product_name)
+        self.id = uuid.uuid4()
 
     def save(self):
         product_set = productdb.set('key', 'value')
@@ -34,5 +28,6 @@ class Product():
             return
         else:
             return False
+
 
 
