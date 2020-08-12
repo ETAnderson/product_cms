@@ -20,16 +20,16 @@ class GenericDatabase(object):
         try:
             json.dump(self.db , open(self.location, "w+"))
             return True
-        except:
+        except Exception as e:
+            print("Error Dumping Database : " + str(e))
             return False
 
     def set(self , key , value):
         try:
             self.db[str(key)] = value
-            self.dumpdb()
-            return True
+            return self.dumpdb()
         except Exception as e:
-            print("[X] Error Saving Values to Database : " + str(e))
+            print("Error Saving Values to Database : " + str(e))
             return False
 
     def get(self , key):
@@ -40,14 +40,11 @@ class GenericDatabase(object):
             return False
 
     def delete(self , key):
-        if not key in self.db:
+        if not str(key) in self.db:
             return False
-        del self.db[key]
-        self.dumpdb()
-        return True
+        del self.db[str(key)]
+        return self.dumpdb()
 
     def resetdb(self):
-        self.db={}
-        self.dumpdb()
-        return True
-
+        self.db = {}
+        return self.dumpdb()
